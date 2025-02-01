@@ -1,6 +1,8 @@
 # Kubernetes Pod Monitor
 
-This project is a Kubernetes Pod Monitor that allows you to view the status of pods in different namespaces within a cluster.
+This project is a Kubernetes Pod Monitor that allows you to view the status of pods in different namespaces within a cluster with read-only permissions.
+
+![Preview](https://i.postimg.cc/FKHyFx7Q/i-Screen-Shoter-Google-Chrome-25020195217-AM.jpg)
 
 ## Prerequisites
 
