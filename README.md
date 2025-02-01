@@ -91,10 +91,11 @@ Replace `YOUR_SERVICE_ACCOUNT_TOKEN` with the token retrieved in the previous st
 npm install
 ```
 
-### 6. Start the Server
+### 6. Start the Backend
 
 ```sh
-npm start
+npm install
+node server.js
 ```
 
 The server will start on the port specified in the `.env` file (default is 3000).
@@ -109,7 +110,7 @@ npm install
 npm start
 ```
 
-The frontend will start on [http://localhost:3000](http://localhost:3000).
+The frontend will start on [http://localhost:3001](http://localhost:3001). Port 3000 is being used by backend node adjust as per your requirements.
 
 ## Available Scripts
 
