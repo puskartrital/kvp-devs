@@ -16,8 +16,8 @@ This project is a Kubernetes Pod Monitor that allows you to view the status of p
 ### 1. Clone the repository
 
 ```sh
-git clone https://github.com/your-repo/kubernetes-pod-monitor.git
-cd kubernetes-pod-monitor
+git clone https://github.com/puskartrital/kvp-devs.git
+cd kvp-devs
 ```
 
 ### 2. Create a Kubernetes Service Account
