@@ -178,3 +178,86 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Configuring for Production with NGINX
+
+To configure this application for production with NGINX, follow these steps:
+
+### 1. Build the Frontend
+
+Navigate to the `frontend` directory and build the frontend:
+
+```sh
+cd frontend
+npm run build
+```
+
+This will create a `build` directory with the production build of your app.
+
+### 2. Set Up NGINX
+
+Install NGINX if it is not already installed:
+
+```sh
+sudo apt update
+sudo apt install nginx
+```
+
+### 3. Configure NGINX
+
+Create an NGINX configuration file for your application:
+
+```sh
+sudo nano /etc/nginx/sites-available/kvp-devs
+```
+
+Add the following configuration to the file:
+
+```nginx
+server {
+    listen 80;
+    server_name your_domain_or_ip;
+
+    location / {
+        root /path/to/your/project/frontend/build;
+        try_files $uri /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://localhost:3000/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+Replace `your_domain_or_ip` with your domain name or IP address and `/path/to/your/project` with the path to your project directory.
+
+### 4. Enable the NGINX Configuration
+
+Enable the new configuration by creating a symbolic link to the `sites-enabled` directory:
+
+```sh
+sudo ln -s /etc/nginx/sites-available/kvp-devs /etc/nginx/sites-enabled/
+```
+
+### 5. Test the NGINX Configuration
+
+Test the NGINX configuration for syntax errors:
+
+```sh
+sudo nginx -t
+```
+
+### 6. Restart NGINX
+
+Restart NGINX to apply the changes:
+
+```sh
+sudo systemctl restart nginx
+```
+
+Your application should now be accessible at your domain or IP address, with NGINX serving the frontend and proxying API requests to the backend.
