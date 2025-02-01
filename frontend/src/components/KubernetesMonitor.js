@@ -14,6 +14,8 @@ function KubernetesMonitor() {
   const [showNamespaces, setShowNamespaces] = useState(false);
   const [showPods, setShowPods] = useState(false);
   const [noSearchResults, setNoSearchResults] = useState(false);
+  const [expandedCluster, setExpandedCluster] = useState(null);
+  const [expandedNamespace, setExpandedNamespace] = useState(null);
 
   // Fetch clusters
   useEffect(() => {
@@ -91,6 +93,26 @@ function KubernetesMonitor() {
     }
   };
 
+  const toggleClusterExpansion = (cluster) => {
+    if (expandedCluster === cluster) {
+      setExpandedCluster(null);
+      setShowNamespaces(false);
+    } else {
+      setExpandedCluster(cluster);
+      fetchNamespaces(cluster);
+    }
+  };
+
+  const toggleNamespaceExpansion = (namespace) => {
+    if (expandedNamespace === namespace) {
+      setExpandedNamespace(null);
+      setShowPods(false);
+    } else {
+      setExpandedNamespace(namespace);
+      fetchPods(namespace);
+    }
+  };
+
   // Loading state
   if (loading) {
     return (
@@ -110,8 +132,8 @@ function KubernetesMonitor() {
           clusters.map((cluster) => (
             <div
               key={cluster.name}
-              className="p-6 border rounded-lg shadow-md cursor-pointer hover:bg-gray-100 transition-all"
-              onClick={() => fetchNamespaces(cluster.name)}
+              className={`p-6 border rounded-lg shadow-md cursor-pointer transition-all ${expandedCluster === cluster.name ? 'bg-gray-100' : ''}`}
+              onClick={() => toggleClusterExpansion(cluster.name)}
             >
               <h2 className="text-xl font-semibold text-center">{cluster.name}</h2>
             </div>
@@ -127,8 +149,8 @@ function KubernetesMonitor() {
           {namespaces.map((ns) => (
             <div
               key={ns}
-              className="p-6 border rounded-lg shadow-md cursor-pointer hover:bg-gray-100 transition-all"
-              onClick={() => fetchPods(ns)}
+              className={`p-6 border rounded-lg shadow-md cursor-pointer transition-all ${expandedNamespace === ns ? 'bg-gray-100' : ''}`}
+              onClick={() => toggleNamespaceExpansion(ns)}
             >
               <h2 className="text-xl font-semibold text-center">{ns}</h2>
             </div>
